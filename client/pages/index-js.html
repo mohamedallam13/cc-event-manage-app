@@ -1,0 +1,39 @@
+<script>
+    document.getElementById('plus-button').addEventListener('click', function () {
+        showModal('modal-form');
+    });
+
+
+
+    document.getElementById('event-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        showModal('modal-loading');
+
+        const eventName = document.getElementById('event-name').value;
+        const eventTime = document.getElementById('event-time').value;
+
+        setTimeout(() => { // Simulating a backend process
+            closeModal('modal-loading');
+            showModal('confetti-wrapper');
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            setTimeout(() => {
+                closeModal('confetti-wrapper');
+            }, 3000); // Hide success message after 3 seconds
+        }, 1500); // Simulating delay
+    });
+
+    function showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'flex';
+        modal.querySelector('.modal-content').classList.add('modal-content-show');
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'none';
+    }
+</script>

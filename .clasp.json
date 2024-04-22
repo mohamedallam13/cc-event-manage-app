@@ -1,8 +1,6 @@
 {
-    "scriptId": "1DA9qYg-wWlYotYMCBw3ODntYXFYr5hPUP5ENn4M0OynZhFb8RBC_KJi9",
+    "scriptId": "1vAWp6af8VSRzuBN8YUOdJQS5herkUq1GYdV1gA3EVQuAWLeCtKn_gM5L",
     "filePushOrder": [
-        "server/ENV.js",
-        "server/JSON DB HANDLER.js",
         "server/Backend.js",
         "server/Helpers.js",
         "server/Middleware.js",
