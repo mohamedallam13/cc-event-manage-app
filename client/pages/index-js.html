@@ -3,6 +3,41 @@
         showModal('modal-form');
     });
 
+    // Function to close the modal if clicked outside the content area
+    // window.onclick = function (event) {
+    //     if (event.target.className === "modal") {
+    //         closeModal(event.target.id);
+    //     }
+    // }
+
+    // function closeModal(modalId) {
+    //     const modal = document.getElementById(modalId);
+    //     modal.style.display = 'none';
+    // }
+
+    function closeAllModals() {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            modal.style.display = 'none';
+        });
+    }
+
+    window.onclick = function (event) {
+        // Check if the clicked element is a modal and not the modal-content
+        if (event.target.classList.contains('modal')) {
+            // Add a condition to check for non-closable modals by ID
+            if (event.target.id === "modal-loading") {
+                // If it's the loading modal, do not close it
+                return;
+            }
+            closeModal(event.target.id);
+        }
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'none';
+    }
 
 
     document.getElementById('event-form').addEventListener('submit', function (e) {
@@ -13,7 +48,8 @@
         const eventTime = document.getElementById('event-time').value;
 
         setTimeout(() => { // Simulating a backend process
-            closeModal('modal-loading');
+            // closeModal('modal-loading');
+            closeAllModals(); // Close all modals when operation is successful
             showModal('confetti-wrapper');
             confetti({
                 particleCount: 100,
