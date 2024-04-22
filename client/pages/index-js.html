@@ -1,19 +1,10 @@
 <script>
+
+    // PLUS BUTTON
+
     document.getElementById('plus-button').addEventListener('click', function () {
         showModal('modal-form');
     });
-
-    // Function to close the modal if clicked outside the content area
-    // window.onclick = function (event) {
-    //     if (event.target.className === "modal") {
-    //         closeModal(event.target.id);
-    //     }
-    // }
-
-    // function closeModal(modalId) {
-    //     const modal = document.getElementById(modalId);
-    //     modal.style.display = 'none';
-    // }
 
     function closeAllModals() {
         const modals = document.querySelectorAll('.modal');
@@ -34,12 +25,10 @@
         }
     }
 
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'none';
-    }
+    // RUN SUBMIT BUTTON
 
-
+    // EMULATION
+    
     document.getElementById('event-form').addEventListener('submit', function (e) {
         e.preventDefault();
         showModal('modal-loading');
@@ -62,14 +51,5 @@
         }, 1500); // Simulating delay
     });
 
-    function showModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'flex';
-        modal.querySelector('.modal-content').classList.add('modal-content-show');
-    }
 
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'none';
-    }
 </script>

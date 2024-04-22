@@ -1,0 +1,110 @@
+<script>
+
+    // Example event data array
+    const events = [{
+        name: "Sample Event",
+        date: "2024-04-01",
+        status: "In Progress",
+        category: "current",
+        forms: [
+            { type: "Application", editLink: "edit_link", viewLink: "view_link" },
+            { type: "Attendance", editLink: "edit_link", viewLink: "view_link" },
+            { type: "Feedback", editLink: "edit_link", viewLink: "view_link" }
+        ]
+    },
+    {
+        name: "Sample Event",
+        date: "2024-04-01",
+        status: "In Progress",
+        category: "current",
+        forms: [
+            { type: "Application", editLink: "edit_link", viewLink: "view_link" },
+            { type: "Attendance", editLink: "edit_link", viewLink: "view_link" },
+            { type: "Feedback", editLink: "edit_link", viewLink: "view_link" }
+        ]
+    },
+    {
+        name: "Sample Event",
+        date: "2024-03-01",
+        status: "Concluded",
+        category: "past",
+        forms: [
+            { type: "Application", editLink: "edit_link", viewLink: "view_link" },
+            { type: "Attendance", editLink: "edit_link", viewLink: "view_link" },
+            { type: "Feedback", editLink: "edit_link", viewLink: "view_link" }
+        ]
+    }];
+
+
+
+    function populateEvents(events) {
+        const categories = {
+            current: document.getElementById('current-events'),
+            future: document.getElementById('future-events'),
+            past: document.getElementById('past-events')
+        };
+
+        // Clear previous events
+        Object.values(categories).forEach(section => section.innerHTML = '<h2>' + section.id.replace('-events', '').toUpperCase() + ' EVENTS</h2>');
+
+        events.forEach(event => {
+            const eventContainer = document.createElement('div');
+            eventContainer.className = 'event';
+
+            const header = document.createElement('div');
+            header.className = 'header';
+            header.innerHTML = `<span class="name">${event.name}</span>
+                                <span class="date">${event.date}</span>
+                                <span class="status">${event.status} ${event.status === 'In Progress' ? '<span class="live-indicator-1"></span><span class="live-indicator-2"></span>' : ''
+                }</span>`;
+
+            const content = document.createElement('div');
+            content.className = 'content hidden'; // Start hidden
+            const formsSection = document.createElement('div');
+            formsSection.className = 'form-links';
+
+            event.forms.forEach(form => {
+                const linkGroup = document.createElement('div');
+                linkGroup.className = 'link-group';
+                linkGroup.innerHTML = `
+                <a href="${form.editLink}" class="edit">Edit ${form.type}</a>
+                <a href="${form.viewLink}" class="view">View ${form.type}</a>
+            `;
+                formsSection.appendChild(linkGroup);
+            });
+
+            content.appendChild(formsSection);
+
+
+            eventContainer.appendChild(header);
+            eventContainer.appendChild(content);
+
+            const parentContainer = document.getElementById(`${event.category}-events`);
+            parentContainer.appendChild(eventContainer);
+        });
+
+        // Check for empty categories and append no events message
+        Object.entries(categories).forEach(([key, section]) => {
+            if (section.getElementsByClassName('event').length === 0) {
+                const noEvents = document.createElement('div');
+                noEvents.className = 'no-events';
+                noEvents.textContent = 'No events';
+                section.appendChild(noEvents);
+            }
+        });
+
+        // Adding click event listener to headers globally
+        document.querySelectorAll('.header').forEach(header => {
+            header.addEventListener('click', function () {
+                const content = this.nextElementSibling; // Get the next sibling which is the content div
+                console.log(content)
+                content.classList.toggle('hidden'); // Toggle visibility
+            });
+        });
+
+    }
+
+    // Ensure this is called on DOMContentLoaded or when data is updated.
+    document.addEventListener('DOMContentLoaded', () => populateEvents(events));
+
+</script>

@@ -1,14 +1,20 @@
 <!-- Paths -->
 <!-- Components -->
 <? const Loader = 'client/components/Loader/Loader' ?>
+<? const Modals = 'client/components/Modals/Modals' ?>
+<? const Collapsibles = 'client/components/Collapsibles/Collapsibles' ?>
 
 <!-- CSS -->
 <? const indexCSS = 'client/pages/index-css' ?>
 <? const LoaderCSS = 'client/components/Loader/Loader-css' ?>
+<? const ModalsCSS = 'client/components/Modals/Modals-css' ?>
+<? const CollapsiblesCSS = 'client/components/Collapsibles/Collapsibles-css' ?>
 
 <!-- Javascript -->
 <? const indexJS = 'client/pages/index-js' ?>
 <? const LoaderJS = 'client/components/Loader/Loader-js' ?>
+<? const ModalsJS = 'client/components/Modals/Modals-js' ?>
+<? const CollapsiblesJS = 'client/components/Collapsibles/Collapsibles-js' ?>
 <? const ConfettiJS = 'client/libraries/confetti' ?>
 
 <!DOCTYPE html>
@@ -17,51 +23,35 @@
 <head>
     <base target="_top">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- For nice popups -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?!= _I(indexCSS) ?>
+    <?!= _I(ModalsCSS) ?>
+    <?!= _I(CollapsiblesCSS) ?>
     <?!= _I(LoaderCSS) ?>
 
 </head>
 
 <body>
+    <!-- <header>
+        <h1>Event Management System</h1>
+    </header> -->
     <div class="app-loader">
         <?!= _I(Loader) ?>
     </div>
 
     <div class="app" id="app">
         <button id="plus-button" class="fas fa-plus"></button>
-
-        <div id="modal-form" class="modal">
-            <div class="modal-content">
-                <form id="event-form">
-                    <label>Event Name:</label>
-                    <select id="event-name">
-                        <option value="Meeting">Meeting</option>
-                        <option value="Birthday">Birthday</option>
-                    </select>
-                    <label>Scheduled Time:</label>
-                    <input type="datetime-local" id="event-time">
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-
-        <div id="modal-loading" class="modal">
-            <div class="modal-content">
-                <dotlottie-player src="https://lottie.host/2d1affbb-85ed-4bb0-a7e4-2a2130e939bf/DgJTanzTYC.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
-                <!-- <p>Loading...</p>  -->
-            </div>
-        </div>
-    
-        <div id="confetti-wrapper" class="modal">
-            <div class="modal-content">
-                <p>Success!</p>
-            </div>
-        </div>
+        <?!= _I(Collapsibles) ?>
+        <?!= _I(Modals) ?>
     </div>
+    <!-- <footer>
+        <p>© 2024 Event Management System. All rights reserved.</p>
+    </footer> -->
     <?!= _I(ConfettiJS) ?>
+    <?!= _I(ModalsJS) ?>
+    <?!= _I(CollapsiblesJS) ?>
     <?!= _I(indexJS) ?>
     <?!= _I(LoaderJS) ?>
 </body>

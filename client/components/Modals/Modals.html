@@ -1,0 +1,30 @@
+<div id="modal-form" class="modal">
+    <div class="modal-content">
+        <form id="event-form">
+            <label>Event Name:</label>
+            <select id="event-name">
+                <option value="Meeting">Meeting</option>
+                <option value="Birthday">Birthday</option>
+            </select>
+            <label>Scheduled Time:</label>
+            <input type="datetime-local" id="event-time">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div id="modal-loading" class="modal">
+    <div class="modal-content">
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+            type="module"></script>
+        <dotlottie-player src="https://lottie.host/3f8f4254-7774-4f35-b6a9-a4b0603de0c0/8wtzoRtmaG.json"
+            background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+        <!-- <p>Loading...</p>  -->
+    </div>
+</div>
+
+<div id="confetti-wrapper" class="modal">
+    <div class="modal-content">
+        <p>Success!</p>
+    </div>
+</div>

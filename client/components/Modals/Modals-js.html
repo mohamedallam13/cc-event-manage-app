@@ -1,0 +1,12 @@
+<script>
+    function showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'flex';
+        modal.querySelector('.modal-content').classList.add('modal-content-show');
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'none';
+    }
+</script>

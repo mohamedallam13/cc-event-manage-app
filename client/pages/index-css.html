@@ -1,12 +1,31 @@
 <style>
   /* styles.css */
-  body,
-  html {
+
+  /* Basic color palette */
+:root {
+    --primary-color: #4a90e2; /* Blue shade */
+    --light-bg: #f0f5f9; /* Light blue background */
+    --text-color: #333; /* Dark grey for text */
+    --header-color: #fff; /* White for headers */
+    --success-color: #4CAF50; /* Green for success/scheduled events */
+    --warning-color: #FF9800; /* Orange for delayed/cancelled events */
+    --error-color: #F44336; /* Red for error/in progress events */
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
     margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-    /* Modern and friendly font */
-    background: #f4f4f4;
+    padding: 20px;
+    background: var(--light-bg);
+}
+
+  header,
+  footer {
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
   }
 
   #plus-button {
@@ -34,65 +53,6 @@
   #plus-button:hover {
     transform: scale(1.1);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: none;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal-content {
-    position: relative;
-    /* Positioned relative to its normal position to allow fine adjustments */
-    padding: 20px;
-    /* Padding around the content for spacing */
-    background: white;
-    /* White background for the content area */
-    border-radius: 8px;
-    /* Rounded corners for the modal content box */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    /* Shadow for 3D effect and to make the modal stand out */
-  }
-
-  .modal-show {
-    display: flex;
-  }
-
-  .modal-content-show {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  #modal-loading p {
-    font-size: 16px;
-    color: #fff;
-    position: relative;
-    animation: bounce 1.5s infinite;
-  }
-
-  @keyframes bounce {
-
-    0%,
-    100% {
-      top: 0;
-    }
-
-    50% {
-      top: -20px;
-    }
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
   }
 
   label {
