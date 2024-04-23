@@ -6,6 +6,9 @@
         date: "2024-04-01",
         status: "In Progress",
         category: "current",
+        eventInfo: {
+            location: ""
+        },
         forms: [
             { type: "Application", editLink: "edit_link", viewLink: "view_link" },
             { type: "Attendance", editLink: "edit_link", viewLink: "view_link" },
@@ -17,6 +20,9 @@
         date: "2024-04-01",
         status: "In Progress",
         category: "current",
+        eventInfo: {
+            location: ""
+        },
         forms: [
             { type: "Application", editLink: "edit_link", viewLink: "view_link" },
             { type: "Attendance", editLink: "edit_link", viewLink: "view_link" },
@@ -28,6 +34,9 @@
         date: "2024-03-01",
         status: "Concluded",
         category: "past",
+        eventInfo: {
+            location: ""
+        },
         forms: [
             { type: "Application", editLink: "edit_link", viewLink: "view_link" },
             { type: "Attendance", editLink: "edit_link", viewLink: "view_link" },
@@ -60,20 +69,74 @@
 
             const content = document.createElement('div');
             content.className = 'content hidden'; // Start hidden
-            const formsSection = document.createElement('div');
-            formsSection.className = 'form-links';
+
+            ///////////////CONTENT / SECTIONS
+
+            // const formsSection = document.createElement('div');
+            // formsSection.className = 'form-links';
+
+            // event.forms.forEach(form => {
+            //     const linkGroup = document.createElement('div');
+            //     linkGroup.className = 'link-group';
+            //     linkGroup.innerHTML = `
+            //     <a href="${form.editLink}" class="edit">Edit ${form.type}</a>
+            //     <a href="${form.viewLink}" class="view">View ${form.type}</a>
+            // `;
+            //     formsSection.appendChild(linkGroup);
+            // });
+
+            // Create links section
+            const linksSection = document.createElement('div');
+            linksSection.className = 'section links';
+            const linksHeader = document.createElement('h3');
+            linksHeader.textContent = 'Links';
+            linksSection.appendChild(linksHeader);
 
             event.forms.forEach(form => {
                 const linkGroup = document.createElement('div');
                 linkGroup.className = 'link-group';
-                linkGroup.innerHTML = `
-                <a href="${form.editLink}" class="edit">Edit ${form.type}</a>
-                <a href="${form.viewLink}" class="view">View ${form.type}</a>
-            `;
-                formsSection.appendChild(linkGroup);
+
+                const label = document.createElement('span');
+                label.className = 'link-label';
+                label.textContent = form.type;
+                linkGroup.appendChild(label);
+
+                const editLink = document.createElement('a');
+                editLink.href = form.editLink;
+                editLink.textContent = `Edit ${form.type}`;
+                editLink.className = 'edit';
+                linkGroup.appendChild(editLink);
+
+                const viewLink = document.createElement('a');
+                viewLink.href = form.viewLink;
+                viewLink.textContent = `View ${form.type}`;
+                viewLink.className = 'view';
+                linkGroup.appendChild(viewLink);
+
+                linksSection.appendChild(linkGroup);
+
             });
 
-            content.appendChild(formsSection);
+            content.appendChild(linksSection);
+
+            // Create event info section
+            const infoSection = document.createElement('div');
+            infoSection.className = 'section event-info';
+            const infoHeader = document.createElement('h3');
+            infoHeader.textContent = 'Event Info';
+            infoSection.appendChild(infoHeader);
+
+            Object.entries(event.eventInfo).forEach(([key, value]) => {
+                const p = document.createElement('p');
+                p.textContent = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`;
+                infoSection.appendChild(p);
+            });
+
+            content.appendChild(infoSection);
+
+            ///////////////
+
+            // content.appendChild(formsSection);
 
 
             eventContainer.appendChild(header);

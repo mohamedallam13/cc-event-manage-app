@@ -38,45 +38,108 @@
         /* Lighter shade of the primary color on hover */
     }
 
-    /* .content {
-        display: none;
-        flex-direction: column;
-        padding: 10px;
-        background-color: var(--header-color);
-        transition: all 0.3s ease-in-out;
-    } */
-
     .content {
         display: block;
-        /* Ensure it's always considered in the layout */
+        /* Change from none to block */
         max-height: 0;
-        /* Start with no height */
+        /* Start with max-height 0 */
         opacity: 0;
-        /* Start fully transparent */
+        /* Start transparent */
         overflow: hidden;
-        /* Keep content from showing when collapsed */
-        transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-        /* Adjust timing and easing */
+        /* Prevent content from spilling over */
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        /* Smooth transitions */
         padding: 0 10px;
-        /* Maintain horizontal padding, transition vertical padding */
+        /* Add horizontal padding, vertical padding is transitioned */
     }
 
     .content:not(.hidden) {
-        max-height: 200px;
-        /* Adjust based on typical content height, tweak as needed */
+        max-height: 1000px;
+        /* Arbitrary large height to accommodate content */
         opacity: 1;
-        /* Fully opaque when expanded */
+        /* Fully visible */
         padding: 10px;
-        /* Full padding when expanded */
+        /* Normal padding */
     }
 
 
-    /* Responsive link groups */
+    .section {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .section h3 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+
+
+    .link-group {
+        display: flex;
+        flex-direction: column;
+        /* Stack links vertically */
+        align-items: stretch;
+        /* Stretch children to fill width */
+        margin-bottom: 15px;
+        /* Uniform spacing between link groups */
+    }
+
+    .link-group label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        /* Spacing between label and buttons */
+        text-align: center;
+        color: var(--button-text-color);
+    }
+
     .link-group a {
-        display: inline-block;
-        margin-right: 10px;
-        color: var(--primary-color);
+        background-color: var(--button-bg);
+        border: 1px solid var(--button-border);
+        border-radius: 4px;
+        padding: 12px;
+        margin-bottom: 8px;
+        /* Spacing between buttons */
+        text-align: center;
+        /* Center the text inside buttons */
+        color: var(--button-text-color);
         text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .link-group a:hover {
+        background-color: var(--button-hover-bg);
+    }
+
+    /* Ensuring that the last link in the group has no bottom margin for proper spacing */
+    .link-group a:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Info Section */
+    .event-info {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .event-info h3 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .event-info p {
+        background-color: #fff;
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        /* Space between info paragraphs if there are multiple */
     }
 
     .live-indicator-1 {
@@ -139,13 +202,16 @@
         }
     }
 
+    @media (max-width: 768px) {
+        .link-group a {
+            margin-bottom: 10px;
+            /* Increase spacing for mobile */
+        }
+    }
+
     /* @keyframes blink-animation {
         to {
             visibility: hidden;
         }
     } */
-
-    .hidden {
-        display: none;
-    }
 </style>
