@@ -37,9 +37,12 @@
 
     #modal-loading p {
         font-size: 16px;
-        color: #fff;
         position: relative;
-        animation: bounce 1.5s infinite;
+    }
+
+    #event-form button[type="submit"] {
+        font-size: 1.2em;
+        /* Adjust the size as you like */
     }
 
     @keyframes bounce {
@@ -57,5 +60,28 @@
     form {
         display: flex;
         flex-direction: column;
+    }
+
+    .loading-text {
+        color: #333;
+        font-size: 16px;
+        text-align: center;
+        padding-top: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        display: none;
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    @keyframes slideInFromBelow {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>

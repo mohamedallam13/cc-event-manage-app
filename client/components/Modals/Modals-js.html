@@ -9,4 +9,168 @@
         const modal = document.getElementById(modalId);
         modal.style.display = 'none';
     }
+
+
+    // Function to control the visibility and animation of the loading text
+    function showLoadingText(textInput) {
+        const loadingText = document.getElementById('loading-text');
+
+        // Force a reflow by hiding the element and resetting styles
+        loadingText.style.display = 'none';
+        loadingText.style.opacity = 0;
+        loadingText.style.transform = 'translateY(20px)';
+
+        // Change the text content
+        loadingText.textContent = textInput;
+
+        // Ensure changes are taken by forcing a reflow/repaint
+        loadingText.offsetHeight;  // Causes reflow; the return value is not used.
+
+        // Now show the element with new text and start animation
+        loadingText.style.display = 'block';
+        requestAnimationFrame(() => {
+            loadingText.style.opacity = 1;
+            loadingText.style.transform = 'translateY(0)';
+        });
+    }
+
+    function hideLoadingText() { // DO NOT NEED IT FOR THE ANIMATION AS IT MESSES IT UP
+        const loadingText = document.getElementById('loading-text');
+        loadingText.style.opacity = 0;
+        loadingText.style.transform = 'translateY(20px)';  // Slide it down
+
+        loadingText.addEventListener('transitionend', () => {
+            loadingText.style.display = 'none';  // Hide after animation completes
+        }, { once: true });
+    }
+
+
+
+
+    const formFields = [
+        {
+            id: "event-type",
+            label: "Event Type",
+            type: "select",
+            options: ["CCG", "CCST"],
+            required: true
+        },
+        {
+            id: "event-name",
+            label: "Event Name",
+            type: "text",
+            required: true
+        },
+        {
+            id: "event-description",
+            label: "Event Description/Talking Topic",
+            type: "textarea"
+        },
+        {
+            id: "event-time",
+            label: "Scheduled Time",
+            type: "datetime-local",
+            required: true
+        },
+        {
+            id: "whatsapp-link",
+            label: "WhatsApp Group Link",
+            type: "text"
+        },
+        {
+            id: "facebook-link",
+            label: "Facebook Group Link",
+            type: "text"
+        }
+    ];
+
+    function createFormElement(element) {
+        if (element.type === "select") {
+            const select = document.createElement("select");
+            select.id = element.id;
+            if (element.required) select.required = true;
+            element.options.forEach(optionValue => {
+                const option = document.createElement("option");
+                option.value = optionValue;
+                option.textContent = optionValue;
+                select.appendChild(option);
+            });
+            return select;
+        } else if (element.type === "textarea") {
+            const textarea = document.createElement("textarea");
+            textarea.id = element.id;
+            return textarea;
+        } else {
+            const input = document.createElement("input");
+            input.type = element.type;
+            input.id = element.id;
+            if (element.required) input.required = true;
+            return input;
+        }
+    }
+
+    function generateForm(fields) {
+        const form = document.createElement("form");
+        form.id = "event-form";
+
+        fields.forEach(field => {
+            const label = document.createElement("label");
+            label.textContent = field.label + ": ";
+            label.htmlFor = field.id;
+
+            const formElement = createFormElement(field);
+
+            form.appendChild(label);
+            if (field.type !== "select") {
+                form.appendChild(document.createElement("br"));
+            }
+            form.appendChild(formElement);
+            form.appendChild(document.createElement("br"));
+        });
+
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.textContent = "Submit";
+        form.appendChild(submitButton);
+
+        // Add event listener to the form for the submit event
+        form.addEventListener('submit', handleSubmit);
+
+        const formModal = document.getElementById("form-modal")
+        formModal.appendChild(form);
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+        console.log("submitted!")
+        // Create an object to hold the form data
+        const formData = {};
+
+        // Iterate over the form fields and collect the data
+        formFields.forEach(field => {
+            let value;
+            if (field.type === 'select' || field.type === 'text' || field.type === 'datetime-local') {
+                value = document.getElementById(field.id).value;
+            } else if (field.type === 'textarea') {
+                value = document.getElementById(field.id).value;
+            }
+            formData[field.id] = value; // Assign value to the formData object
+        });
+
+        // At this point, you can do what you want with the formData object.
+        // For example, console.log it, send it to a server, etc.
+        console.log(formData);
+        const request = {
+            activity: formData["event-type"],
+            roundName: formData["event-name"],
+            setDate: formData["event-time"],
+            talkingTopic: formData["event-description"],
+            whatsappGroupLink: formData["whatsapp-link"],
+            facebookGroupLink: formData["facebook-link"]
+        }
+        // createEventInfraStructure(request)
+    }
+
+    generateForm(formFields)
+
 </script>

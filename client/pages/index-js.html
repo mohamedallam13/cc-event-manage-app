@@ -18,8 +18,8 @@
     function renderFeed(feedString) {
         const { eventsFeed } = JSON.parse(feedString)
         eventFeedArray = eventsFeed
-        populateEvents(eventsFeed)
-        // populateEvents()
+        // populateEvents(eventsFeed)
+        populateEvents()
         hide()
     }
 
@@ -53,6 +53,8 @@
     // BACKEND FUNCTIONS GAS
 
     function createEventInfraStructure(request) {
+        showModal('modal-loading');
+        showLoadingText('Preparing your event...');
         google.script.run
             .withSuccessHandler(addEventToDB)
             .withFailureHandler(handleError)
@@ -60,7 +62,7 @@
     }
 
     function addEventToDB(request) {
-        // Change Text Underloading
+        showLoadingText('Almost ready...');
         // Formulate Add to DB Request
         google.script.run
             .withSuccessHandler(showSuccess)
@@ -72,21 +74,39 @@
         const loadingModalText = document.getElementById("loadingModalText")
     }
 
-    function showSuccess(eventData) {
-
+    async function showSuccess(eventData) {
+        closeAllModals(); // Close all modals when operation is successful
+        showModal('confetti-wrapper');
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+        await wait(3000); // Show confetti for 3 seconds
+        closeModal('confetti-wrapper');
     }
 
     // EMULATION
 
-    document.getElementById('event-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        showModal('modal-loading');
+    // Helper function to wait for a specified amount of time using Promises
+    function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-        const eventName = document.getElementById('event-name').value;
-        const eventTime = document.getElementById('event-time').value;
+    async function handleFormSubmission() {
+        document.getElementById('event-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            showModal('modal-loading');
 
-        setTimeout(() => { // Simulating a backend process
-            // closeModal('modal-loading');
+            showLoadingText('Preparing your event...');
+            console.log('Preparing your event...')
+            await wait(5000); // Display first message for 2 seconds
+            console.log('Prepared')
+            showLoadingText('Almost ready...');
+            console.log('Almost ready...')
+            await wait(5000); // Display second message for 2 seconds
+            // hideLoadingText()
+            console.log('Readied!')
             closeAllModals(); // Close all modals when operation is successful
             showModal('confetti-wrapper');
             confetti({
@@ -94,12 +114,13 @@
                 spread: 70,
                 origin: { y: 0.6 }
             });
-            setTimeout(() => {
-                closeModal('confetti-wrapper');
-            }, 3000); // Hide success message after 3 seconds
-        }, 1500); // Simulating delay
-    });
 
+            await wait(3000); // Show confetti for 3 seconds
+            closeModal('confetti-wrapper');
+        });
+    }
+
+    handleFormSubmission()
     window.onload = loadFeed;
 
 </script>
