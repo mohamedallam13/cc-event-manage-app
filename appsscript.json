@@ -1,6 +1,15 @@
 {
   "timeZone": "Africa/Cairo",
-  "dependencies": {},
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "CCLIBRARIES",
+        "version": "11",
+        "libraryId": "1M-HVmwVCGEcG5fEOfYPWkNat4p8LZidFiC6vsUBtGTt74gc19ASNmJRh",
+        "developmentMode": false
+      }
+    ]
+  },
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8",
   "webapp": {

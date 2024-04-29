@@ -27,8 +27,36 @@
     return response.eventsFeed
   }
 
-  function augmentParameters() {
+  function augmentParameters(eventsFeed) {
+    eventsFeed.forEach(eventObj => {
+      const { sceduledDate } = eventObj
+      let schedDate
+      if (Array.isArray(sceduledDate)) schedDate = sceduledDate[0]
+      else schedDate = sceduledDate
+      const { category, status } = categorizeEvent(schedDate)
+      eventObj.category = category
+      eventObj.status = status // TEMP
+    })
+  }
 
+  function categorizeEvent(dateTime) {
+    const currentDateTime = new Date();
+    const eventDateTime = new Date(dateTime);
+
+    // Set time window boundaries (6:00 PM and 11:00 PM)
+    const startTimeWindow = new Date(eventDateTime);
+    startTimeWindow.setHours(18, 0, 0, 0); // 6:00 PM
+    const endTimeWindow = new Date(eventDateTime);
+    endTimeWindow.setHours(23, 0, 0, 0); // 11:00 PM
+
+    // Compare dates and times
+    if (currentDateTime >= startTimeWindow && currentDateTime <= endTimeWindow) {
+      return { category: "Current", status: "In Progress" };
+    } else if (eventDateTime > currentDateTime) {
+      return { category: "Future", status: "Scheduled" };
+    } else {
+      return { category: "Past", status: "Concluded" };
+    }
   }
 
   function createEventInfraStructure(request) {
