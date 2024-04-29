@@ -1,10 +1,11 @@
 <script>
 
     // Example event data array
-    const events = [{
+
+    const EVENTS = [{
         name: "Sample Event",
         title: "",
-        date: "2024-04-01",
+        schedDate: "2024-04-01",
         status: "In Progress",
         category: "current",
         extendedDescription: "",
@@ -24,7 +25,7 @@
     {
         name: "Sample Event",
         title: "",
-        date: "2024-04-01",
+        schedDate: "2024-04-01",
         status: "In Progress",
         category: "current",
         extendedDescription: "",
@@ -43,7 +44,7 @@
     },
     {
         name: "Sample Event",
-        date: "2024-03-01",
+        schedDate: "2024-03-01",
         title: "",
         status: "Concluded",
         category: "past",
@@ -62,18 +63,18 @@
         ]
     }];
 
+    const categories = {
+        current: document.getElementById('current-events'),
+        future: document.getElementById('future-events'),
+        past: document.getElementById('past-events')
+    };
 
-
-    function populateEvents(events) {
-        const categories = {
-            current: document.getElementById('current-events'),
-            future: document.getElementById('future-events'),
-            past: document.getElementById('past-events')
-        };
-
+    function createCategories() {
         // Clear previous events
         Object.values(categories).forEach(section => section.innerHTML = '<h2>' + section.id.replace('-events', '').toUpperCase() + ' EVENTS</h2>');
+    }
 
+    function populateEvents(events = EVENTS) {
         events.forEach(event => {
             const eventContainer = document.createElement('div');
             eventContainer.className = 'event';
@@ -81,8 +82,8 @@
             const header = document.createElement('div');
             header.className = 'header';
             header.innerHTML = `<span class="event-name">${event.name}</span>
-                                <span class="event-date">${event.date}</span>
-                                <span class="status status-${event.status.toLowerCase().replace(" ","-")}">
+                                <span class="event-date">${event.schedDate}</span>
+                                <span class="status status-${event.status.toLowerCase().replace(" ", "-")}">
                                     ${event.status} 
                                 ${event.status === 'In Progress' ? '<span class="live-indicator-1"></span><span class="live-indicator-2"></span>' : ''
                 }</span>`;

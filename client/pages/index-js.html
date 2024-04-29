@@ -1,5 +1,28 @@
 <script>
 
+    let eventFeedArray
+
+    function loadFeed() {
+        createCategories()
+        show()
+        google.script.run
+            .withSuccessHandler(renderFeed)
+            .withFailureHandler(handleError)
+            .loadFeed();
+    }
+
+    function handleError(error) {
+        console.error('Error fetching data:', error);
+    }
+
+    function renderFeed(feedString) {
+        const { eventsFeed } = JSON.parse(feedString)
+        eventFeedArray = eventsFeed
+        populateEvents(eventsFeed)
+        // populateEvents()
+        hide()
+    }
+
     // PLUS BUTTON
 
     document.getElementById('plus-button').addEventListener('click', function () {
@@ -77,5 +100,6 @@
         }, 1500); // Simulating delay
     });
 
+    window.onload = loadFeed;
 
 </script>

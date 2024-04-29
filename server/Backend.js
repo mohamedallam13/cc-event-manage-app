@@ -34,6 +34,7 @@
       if (Array.isArray(sceduledDate)) schedDate = sceduledDate[0]
       else schedDate = sceduledDate
       const { category, status } = categorizeEvent(schedDate)
+      eventObj.schedDate = schedDate
       eventObj.category = category
       eventObj.status = status // TEMP
     })
@@ -51,11 +52,11 @@
 
     // Compare dates and times
     if (currentDateTime >= startTimeWindow && currentDateTime <= endTimeWindow) {
-      return { category: "Current", status: "In Progress" };
+      return { category: "current", status: "In Progress" };
     } else if (eventDateTime > currentDateTime) {
-      return { category: "Future", status: "Scheduled" };
+      return { category: "future", status: "Scheduled" };
     } else {
-      return { category: "Past", status: "Concluded" };
+      return { category: "past", status: "Concluded" };
     }
   }
 
@@ -76,8 +77,8 @@
 
 })
 
-function getFeed() {
-  BACKEND.getFeed()
+function loadFeed() {
+  return BACKEND.getFeed()
 }
 
 function createEventInfraStructure(request) {
