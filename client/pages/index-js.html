@@ -25,10 +25,36 @@
         }
     }
 
-    // RUN SUBMIT BUTTON
+    //// RUN SUBMIT BUTTON
+
+    // BACKEND FUNCTIONS GAS
+
+    function createEventInfraStructure(request) {
+        google.script.run
+            .withSuccessHandler(addEventToDB)
+            .withFailureHandler(handleError)
+            .createEventInfraStructure(request);
+    }
+
+    function addEventToDB(request) {
+        // Change Text Underloading
+        // Formulate Add to DB Request
+        google.script.run
+            .withSuccessHandler(showSuccess)
+            .withFailureHandler(handleError)
+            .addEventToDB(request);
+    }
+
+    function changeTextUnderLoading() {
+        const loadingModalText = document.getElementById("loadingModalText")
+    }
+
+    function showSuccess(eventData) {
+
+    }
 
     // EMULATION
-    
+
     document.getElementById('event-form').addEventListener('submit', function (e) {
         e.preventDefault();
         showModal('modal-loading');

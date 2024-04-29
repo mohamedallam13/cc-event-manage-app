@@ -1,4 +1,19 @@
 <style>
+    #event-container {
+        margin: 0 auto;
+        /* Centers the container */
+        max-width: 960px;
+        /* Adjust this value as needed to reduce the width */
+        padding: 20px;
+        /* This padding adds space inside the container */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Optional: Adds shadow for depth */
+        background: #FAF9F6;
+        /* Optional: Set a background color for the container */
+        border-radius: 8px;
+        /* Optional: Rounds the corners of the container */
+    }
+
     .events-section {
         background-color: var(--header-color);
         padding: 10px;
@@ -20,22 +35,99 @@
         color: var(--text-color);
     }
 
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px;
+        background-color: #e3f2e1;
+        /* Soft blue */
+        color: #2a2a2a;
+        /* Dark gray for contrast */
+        border-radius: 6px;
+        font-family: 'Segoe UI', 'Roboto', sans-serif;
+        font-size: 1rem;
+    }
 
     .header {
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        padding: 10px;
-        background-color: var(--primary-color);
-        color: var(--header-color);
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-        /* Smooth transition for background color */
+        padding: 15px;
+        background-color: #e9ecef;
+        /* Light gray */
+        color: #495057;
+        /* Darker gray for contrast */
+        border-radius: 6px;
+        font-family: 'Segoe UI', 'Roboto', sans-serif;
+        font-size: 1rem;
     }
 
-    .header:hover {
-        background-color: #5ca1f7;
-        /* Lighter shade of the primary color on hover */
+
+.header:hover{
+    cursor: pointer;
+    background-color: #D4EDDA;
+}
+
+    .event-name {
+        font-weight: bold;
+        font-size: 1.2rem;
+        /* Larger font size for the event name */
+    }
+
+    .event-date {
+        font-size: 1.2rem;
+        /* Slightly smaller font size for the date */
+    }
+
+    .status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        /* Reduced font size */
+        font-weight: 500;
+        /* Lighten the font weight */
+        padding: 3px 8px;
+        /* Reduced padding for a more compact look */
+        border-radius: 10px;
+        /* Slightly smaller border radius */
+    }
+
+    /* Lighter color palette */
+    .status-in-progress {
+        background-color: #FFF3CD;
+        /* Light yellow for 'In Progress' */
+        color: #856404;
+        /* Darker text for readability */
+    }
+
+    .status-concluded {
+        background-color: #D4EDDA;
+        /* Light green for 'Concluded' */
+        color: #155724;
+        /* Darker text for readability */
+    }
+
+    .status-scheduled {
+        background-color: #D1ECF1;
+        /* Light blue for 'Scheduled' */
+        color: #0C5460;
+        /* Darker text for readability */
+    }
+
+    .status-delayed {
+        background-color: #FDE2CD;
+        /* Light orange for 'Delayed' */
+        color: #A25602;
+        /* Darker text for readability */
+    }
+
+    .status-cancelled {
+        background-color: #F8D7DA;
+        /* Light red for 'Cancelled' */
+        color: #721C24;
+        /* Darker text for readability */
     }
 
     .content {
@@ -78,46 +170,6 @@
 
 
 
-    .link-group {
-        display: flex;
-        flex-direction: column;
-        /* Stack links vertically */
-        align-items: stretch;
-        /* Stretch children to fill width */
-        margin-bottom: 15px;
-        /* Uniform spacing between link groups */
-    }
-
-    .link-group label {
-        font-weight: bold;
-        margin-bottom: 8px;
-        /* Spacing between label and buttons */
-        text-align: center;
-        color: var(--button-text-color);
-    }
-
-    .link-group a {
-        background-color: var(--button-bg);
-        border: 1px solid var(--button-border);
-        border-radius: 4px;
-        padding: 12px;
-        margin-bottom: 8px;
-        /* Spacing between buttons */
-        text-align: center;
-        /* Center the text inside buttons */
-        color: var(--button-text-color);
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
-
-    .link-group a:hover {
-        background-color: var(--button-hover-bg);
-    }
-
-    /* Ensuring that the last link in the group has no bottom margin for proper spacing */
-    .link-group a:last-child {
-        margin-bottom: 0;
-    }
 
     /* Info Section */
     .event-info {
@@ -196,16 +248,102 @@
         }
     } */
 
+
+    .link-group {
+        display: flex;
+        flex-direction: column;
+        /* Stack links vertically */
+        align-items: stretch;
+        /* Stretch children to fill width */
+        margin-bottom: 15px;
+        /* Uniform spacing between link groups */
+    }
+
+    .link-group .link-label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        /* Spacing between label and buttons */
+        text-align: center;
+        color: var(--button-text-color);
+    }
+
+    .link-group a {
+        background-color: var(--button-bg);
+        border: 1px solid var(--button-border);
+        border-radius: 4px;
+        padding: 12px;
+        margin-bottom: 8px;
+        /* Spacing between buttons */
+        text-align: center;
+        /* Center the text inside buttons */
+        color: var(--button-text-color);
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .link-group a:hover {
+        background-color: var(--button-hover-bg);
+    }
+
+    /* Ensuring that the last link in the group has no bottom margin for proper spacing */
+    .link-group a:last-child {
+        margin-bottom: 0;
+    }
+
     @media (max-width: 768px) {
         .content .link-group {
             flex-direction: column;
         }
-    }
 
-    @media (max-width: 768px) {
         .link-group a {
             margin-bottom: 10px;
             /* Increase spacing for mobile */
+        }
+    }
+
+    @media (min-width: 768px) {
+        .links-subsection {
+            display: flex;
+            /* Enable flexbox */
+            flex-wrap: wrap;
+            /* Allow items to wrap if needed */
+            gap: 10px;
+            /* This creates a gap between flex items */
+            justify-content: flex-start;
+            /* Align flex items to the start */
+        }
+
+        .link-group {
+            flex-grow: 1;
+            /* Allow each link group to grow */
+            display: flex;
+            flex-direction: column;
+            /* Stack the links vertically */
+            margin-bottom: 10px;
+            /* Add space between vertical link groups */
+        }
+
+        .link-group .link-label {
+            flex-basis: 100%;
+            /* Label takes full width */
+            margin-bottom: 5px;
+            /* Space between label and links */
+            text-align: center;
+            /* Center-align the label text */
+        }
+
+        .link-group a {
+            flex-grow: 1;
+            /* Allow links to grow and fill the space evenly */
+            text-align: center;
+            /* Center text within the links */
+            margin-bottom: 5px;
+            /* Space between the edit and view links */
+        }
+
+        .link-group a:last-child {
+            margin-bottom: 0;
+            /* No bottom margin for the last link */
         }
     }
 

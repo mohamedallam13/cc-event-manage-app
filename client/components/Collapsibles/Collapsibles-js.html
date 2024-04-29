@@ -3,11 +3,17 @@
     // Example event data array
     const events = [{
         name: "Sample Event",
+        title: "",
         date: "2024-04-01",
         status: "In Progress",
         category: "current",
+        extendedDescription: "",
         eventInfo: {
             location: ""
+        },
+        socialMedia: {
+            whatsappGroupLink: "",
+            facebookGroupLink: ""
         },
         forms: [
             { type: "Application", editLink: "edit_link", viewLink: "view_link" },
@@ -17,11 +23,17 @@
     },
     {
         name: "Sample Event",
+        title: "",
         date: "2024-04-01",
         status: "In Progress",
         category: "current",
+        extendedDescription: "",
         eventInfo: {
             location: ""
+        },
+        socialMedia: {
+            whatsappGroupLink: "",
+            facebookGroupLink: ""
         },
         forms: [
             { type: "Application", editLink: "edit_link", viewLink: "view_link" },
@@ -32,10 +44,16 @@
     {
         name: "Sample Event",
         date: "2024-03-01",
+        title: "",
         status: "Concluded",
         category: "past",
+        extendedDescription: "",
         eventInfo: {
             location: ""
+        },
+        socialMedia: {
+            whatsappGroupLink: "",
+            facebookGroupLink: ""
         },
         forms: [
             { type: "Application", editLink: "edit_link", viewLink: "view_link" },
@@ -62,9 +80,11 @@
 
             const header = document.createElement('div');
             header.className = 'header';
-            header.innerHTML = `<span class="name">${event.name}</span>
-                                <span class="date">${event.date}</span>
-                                <span class="status">${event.status} ${event.status === 'In Progress' ? '<span class="live-indicator-1"></span><span class="live-indicator-2"></span>' : ''
+            header.innerHTML = `<span class="event-name">${event.name}</span>
+                                <span class="event-date">${event.date}</span>
+                                <span class="status status-${event.status.toLowerCase().replace(" ","-")}">
+                                    ${event.status} 
+                                ${event.status === 'In Progress' ? '<span class="live-indicator-1"></span><span class="live-indicator-2"></span>' : ''
                 }</span>`;
 
             const content = document.createElement('div');
@@ -72,25 +92,16 @@
 
             ///////////////CONTENT / SECTIONS
 
-            // const formsSection = document.createElement('div');
-            // formsSection.className = 'form-links';
-
-            // event.forms.forEach(form => {
-            //     const linkGroup = document.createElement('div');
-            //     linkGroup.className = 'link-group';
-            //     linkGroup.innerHTML = `
-            //     <a href="${form.editLink}" class="edit">Edit ${form.type}</a>
-            //     <a href="${form.viewLink}" class="view">View ${form.type}</a>
-            // `;
-            //     formsSection.appendChild(linkGroup);
-            // });
-
             // Create links section
             const linksSection = document.createElement('div');
             linksSection.className = 'section links';
             const linksHeader = document.createElement('h3');
             linksHeader.textContent = 'Links';
             linksSection.appendChild(linksHeader);
+
+            const linksSubSection = document.createElement('div');
+            linksSubSection.className = 'links-subsection';
+            linksSection.appendChild(linksSubSection);
 
             event.forms.forEach(form => {
                 const linkGroup = document.createElement('div');
@@ -113,7 +124,7 @@
                 viewLink.className = 'view';
                 linkGroup.appendChild(viewLink);
 
-                linksSection.appendChild(linkGroup);
+                linksSubSection.appendChild(linkGroup);
 
             });
 
