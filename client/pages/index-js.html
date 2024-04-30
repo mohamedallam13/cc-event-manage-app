@@ -1,6 +1,14 @@
 <script>
 
+
+    /*
+
+    INTITIAL LOADING AND FETCHING FEED AND DIVISION PROPS
+
+    */
+
     let eventFeedArray
+    let divisionPropertiesFile
 
     function loadFeed() {
         createCategories()
@@ -16,11 +24,76 @@
     }
 
     function renderFeed(feedString) {
-        const { eventsFeed } = JSON.parse(feedString)
+        const { eventsFeed, divisionProperties } = JSON.parse(feedString)
+        divisionPropertiesFile = divisionProperties
+        console.log(divisionProperties)
         eventFeedArray = eventsFeed
-        // populateEvents(eventsFeed)
-        populateEvents()
+        populateEvents(eventsFeed)
+        populateFormQuestions()
+        // populateEvents()
         hide()
+    }
+
+    function populateFormQuestions() {
+        const gatheringsSeasons = divisionPropertiesFile["Branch"]["CCG"].seasons
+        const latestGatheringSeason = Object.keys(gatheringsSeasons)[Object.keys(gatheringsSeasons).length - 1]
+        const latestGatheringSeasonObj = gatheringsSeasons[latestGatheringSeason]
+        const gatheringsCounter = latestGatheringSeasonObj.counter
+
+        const formFields = [
+            {
+                id: "event-type",
+                label: "Event Type",
+                type: "select",
+                options: ["CCG", "CCST"],
+                required: true,
+                onChange: handleEventTypeChange // Function to handle change event
+            },
+            {
+                id: "event-name",
+                label: "Event Name",
+                type: "text",
+                required: true
+            },
+            {
+                id: "event-description",
+                label: "Event Description/Talking Topic",
+                type: "textarea"
+            },
+            {
+                id: "event-time",
+                label: "Scheduled Time",
+                type: "datetime-local",
+                required: true
+            },
+            {
+                id: "whatsapp-link",
+                label: "WhatsApp Group Link",
+                type: "text"
+            },
+            {
+                id: "facebook-link",
+                label: "Facebook Group Link",
+                type: "text"
+            },
+            {
+                id: "season",
+                label: "Season",
+                type: "text",
+                value: "S11",
+                dependentOn: { id: "event-type", value: "CCG" },  // Dependent field
+                disabled: true  // This field is also read-only when displayed
+            },
+            {
+                id: "round-number",
+                label: "Round Number",
+                type: "text",
+                value: "R" + gatheringsCounter,
+                dependentOn: { id: "event-type", value: "CCG" },  // Dependent field
+                disabled: true  // This field is also read-only when displayed
+            }
+        ];
+        generateForm(formFields)
     }
 
     // PLUS BUTTON
@@ -48,6 +121,12 @@
         }
     }
 
+    /*
+
+    RUN SUBMIT -> SEND TO BACKEND TO FIRST CREATE FORMS AND FOLDER AND SECOND TO ADD TO EVENTS DB, THEN COME BACK AND UPDATE LOCAL DIVISION PROPS AND APPEND NEW EVENT
+
+    */
+
     //// RUN SUBMIT BUTTON
 
     // BACKEND FUNCTIONS GAS
@@ -55,15 +134,23 @@
     function createEventInfraStructure(request) {
         showModal('modal-loading');
         showLoadingText('Preparing your event...');
+        const { activity, season, round } = request
+        console.log(divisionPropertiesFile["Events"], activity, season)
+        const divisionProps = divisionPropertiesFile["Events"][activity].seasons[season]
+        const { seasonCode } = divisionProps
+        const roundCode = seasonCode + round
+        request = { ...request, seasonCode, roundCode }
+        console.log(request)
         google.script.run
-            .withSuccessHandler(addEventToDB)
+            // .withSuccessHandler(addEventToDB)
+            .withSuccessHandler(showSuccess)
             .withFailureHandler(handleError)
             .createEventInfraStructure(request);
     }
 
-    function addEventToDB(request) {
+    function addEventToDB(requestString) {
+        const request = JSON.parse(requestString)
         showLoadingText('Almost ready...');
-        // Formulate Add to DB Request
         google.script.run
             .withSuccessHandler(showSuccess)
             .withFailureHandler(handleError)
@@ -74,7 +161,12 @@
         const loadingModalText = document.getElementById("loadingModalText")
     }
 
-    async function showSuccess(eventData) {
+    async function showSuccess(eventObjString) {
+        const eventObj = JSON.parse(eventObjString)
+        console.log(eventObj)
+        appendToCurrentEvents(eventObj)
+        createCategories()
+        populateEvents(eventFeedArray)
         closeAllModals(); // Close all modals when operation is successful
         showModal('confetti-wrapper');
         confetti({
@@ -86,6 +178,12 @@
         closeModal('confetti-wrapper');
     }
 
+    function appendToCurrentEvents(eventObj) {
+        eventFeedArray.unshift(eventObj)
+        const { division, branch, season } = eventObj
+        divisionPropertiesFile[branch][division].seasons[season].counter++
+    }
+
     // EMULATION
 
     // Helper function to wait for a specified amount of time using Promises
@@ -93,34 +191,34 @@
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async function handleFormSubmission() {
-        document.getElementById('event-form').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            showModal('modal-loading');
+    // async function handleFormSubmission() {
+    //     document.getElementById('event-form').addEventListener('submit', async function (e) {
+    //         e.preventDefault();
+    //         showModal('modal-loading');
 
-            showLoadingText('Preparing your event...');
-            console.log('Preparing your event...')
-            await wait(5000); // Display first message for 2 seconds
-            console.log('Prepared')
-            showLoadingText('Almost ready...');
-            console.log('Almost ready...')
-            await wait(5000); // Display second message for 2 seconds
-            // hideLoadingText()
-            console.log('Readied!')
-            closeAllModals(); // Close all modals when operation is successful
-            showModal('confetti-wrapper');
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+    //         showLoadingText('Preparing your event...');
+    //         console.log('Preparing your event...')
+    //         await wait(5000); // Display first message for 2 seconds
+    //         console.log('Prepared')
+    //         showLoadingText('Almost ready...');
+    //         console.log('Almost ready...')
+    //         await wait(5000); // Display second message for 2 seconds
+    //         // hideLoadingText()
+    //         console.log('Readied!')
+    //         closeAllModals(); // Close all modals when operation is successful
+    //         showModal('confetti-wrapper');
+    //         confetti({
+    //             particleCount: 100,
+    //             spread: 70,
+    //             origin: { y: 0.6 }
+    //         });
 
-            await wait(3000); // Show confetti for 3 seconds
-            closeModal('confetti-wrapper');
-        });
-    }
+    //         await wait(3000); // Show confetti for 3 seconds
+    //         closeModal('confetti-wrapper');
+    //     });
+    // }
 
-    handleFormSubmission()
+    // handleFormSubmission()
     window.onload = loadFeed;
 
 </script>

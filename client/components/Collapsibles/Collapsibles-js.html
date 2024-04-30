@@ -69,6 +69,12 @@
         past: document.getElementById('past-events')
     };
 
+    /*
+
+    EVENT LISTS CREATION AS COLLAPSIBLES FALLING INTO CATEGORIES
+
+    */
+
     function createCategories() {
         // Clear previous events
         Object.values(categories).forEach(section => section.innerHTML = '<h2>' + section.id.replace('-events', '').toUpperCase() + ' EVENTS</h2>');

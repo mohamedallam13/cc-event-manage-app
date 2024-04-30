@@ -62,6 +62,39 @@
         flex-direction: column;
     }
 
+    /* CSS for form labels and input elements */
+    form label,
+    form input,
+    form select,
+    form textarea,
+    form button {
+        font-size: 16px;
+        /* Increase font size; adjust as needed */
+        font-family: Arial, sans-serif;
+        /* Example font family */
+        margin: 5px 0;
+        /* Adds a little space around items */
+    }
+
+    form input,
+    form select,
+    form textarea,
+    form button {
+        padding: 8px 12px;
+        /* Adds padding, ensuring left and right padding are the same */
+        width: calc(100% - 24px);
+        /* Adjust width to account for padding */
+    }
+
+    form label {
+        display: block;
+        /* Ensures label is above the form field */
+        margin-bottom: 4px;
+        /* Space between the label and the input field */
+    }
+
+
+
     .loading-text {
         color: #333;
         font-size: 16px;
