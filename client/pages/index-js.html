@@ -35,12 +35,14 @@
     }
 
     function populateFormQuestions() {
-        const gatheringsSeasons = divisionPropertiesFile["Branch"]["CCG"].seasons
+        const gatheringsSeasons = divisionPropertiesFile["Events"]["CCG"].seasons
         const latestGatheringSeason = Object.keys(gatheringsSeasons)[Object.keys(gatheringsSeasons).length - 1]
         const latestGatheringSeasonObj = gatheringsSeasons[latestGatheringSeason]
         const gatheringsCounter = latestGatheringSeasonObj.counter
 
-        const formFields = [
+        // GLOBAL IN MODALS COMPONENT 
+
+        formFields = [
             {
                 id: "event-type",
                 label: "Event Type",
@@ -88,7 +90,7 @@
                 id: "round-number",
                 label: "Round Number",
                 type: "text",
-                value: "R" + gatheringsCounter,
+                value: "R" + (gatheringsCounter + 1),
                 dependentOn: { id: "event-type", value: "CCG" },  // Dependent field
                 disabled: true  // This field is also read-only when displayed
             }
@@ -142,14 +144,15 @@
         request = { ...request, seasonCode, roundCode }
         console.log(request)
         google.script.run
-            // .withSuccessHandler(addEventToDB)
-            .withSuccessHandler(showSuccess)
+            .withSuccessHandler(addEventToDB)
+            // .withSuccessHandler(showSuccess)
             .withFailureHandler(handleError)
             .createEventInfraStructure(request);
     }
 
     function addEventToDB(requestString) {
         const request = JSON.parse(requestString)
+        console.log(request)
         showLoadingText('Almost ready...');
         google.script.run
             .withSuccessHandler(showSuccess)
@@ -181,6 +184,7 @@
     function appendToCurrentEvents(eventObj) {
         eventFeedArray.unshift(eventObj)
         const { division, branch, season } = eventObj
+        console.log(division, branch, season)
         divisionPropertiesFile[branch][division].seasons[season].counter++
     }
 

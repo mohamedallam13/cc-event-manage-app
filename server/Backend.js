@@ -32,10 +32,10 @@
   }
 
   function formulateSingleEntries(eventObj) {
-    const { sceduledDate } = eventObj
+    const { scheduledDate } = eventObj
     let schedDate
-    if (Array.isArray(sceduledDate)) schedDate = sceduledDate[0]
-    else schedDate = sceduledDate
+    if (Array.isArray(scheduledDate)) schedDate = scheduledDate[0]
+    else schedDate = scheduledDate
     const { category, status } = categorizeEvent(schedDate)
     eventObj.schedDate = schedDate
     eventObj.category = category
@@ -95,32 +95,49 @@
       process: "createNextGatheringsRound",
       ...apiRequest
     });
+    console.log(response)
     return response
   }
 
   function addEventToDB(request) {
+    // request = {
+    //   division: "Events",
+    //   activity: "CCG",
+    //   facebookGroupLink: "",
+    //   round: "R4",
+    //   roundCode: "SXIR4",
+    //   roundName: "Movie Night",
+    //   season: "S11",
+    //   seasonCode: "SXI",
+    //   setDate: "2024-05-03T20:33",
+    //   talkingTopic: "",
+    //   whatsappGroupLink: "",
+    //   allForms: ""
+    // }
     const { forms } = request
     const allForms = getAllForms(forms)
-    const eventRequestObj = new EventObj(...request, allForms)
-    const newEventObj = addEventToDBViaAPI(eventRequestObj)
-    formulateSingleEntries(newEventObj)
-    return JSON.stringify(newEventObj)
+    console.log(allForms)
+    const eventRequestObj = new EventObj({ ...request, allForms })
+    console.log(eventRequestObj)
+    const eventObj = addEventToDBViaAPI(eventRequestObj)
+    formulateSingleEntries(eventObj)
+    return JSON.stringify(eventObj)
   }
 
   function getAllForms(forms) {
-    const allForms = {}
+    const allForms = []
     Object.entries(forms).forEach(([formType, formGroupObj]) => {
-      const formsObj = FormsObj(formType, formGroupObj.editURL, formGroupObj.viewLink, formGroupObj.responseSheetURL)
-      allForms[formType] = formsObj
+      const formsObj = new FormsObj(formType, formGroupObj.editURL, formGroupObj.viewURL, formGroupObj.responseSheetURL)
+      allForms.push(formsObj)
     })
     return allForms
   }
 
   function EventObj({
     division,
-    name,
+    activity,
+    roundName,
     title = "",
-    creationDate = "",
     setDate = "",
     description,
     extendedDescription = "",
@@ -134,10 +151,10 @@
     allForms,
   }) {
     this.key = activity + "-" + roundCode
-    this.name = name
+    this.name = roundName
     this.title = title
-    this.creationDate = creationDate
-    this.sceduledDate = [setDate]
+    this.creationDate = new Date()
+    this.scheduledDate = [setDate]
     this.description = description
     this.extendedDescription = extendedDescription
     this.roundCode = roundCode
@@ -174,6 +191,7 @@
       process: "addNewEvent",
       ...request
     });
+    console.log(response)
     return response
   }
 
