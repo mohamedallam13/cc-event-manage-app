@@ -1,9 +1,0 @@
-{
-    "scriptId": "1vAWp6af8VSRzuBN8YUOdJQS5herkUq1GYdV1gA3EVQuAWLeCtKn_gM5L",
-    "filePushOrder": [
-        "server/Backend.js",
-        "server/Helpers.js",
-        "server/Middleware.js",
-        "server/Server.js"
-    ]
-}
